@@ -26,11 +26,13 @@ class To_Log:
         #passw = request.POST.get("pass")
         try:
             user = authe.sign_in_with_email_and_password(email,passw)
+            return True
         except:
             message="invalid credentials"
             return False
         #use uid to query in database. store uid in some place
         print(user)
+        print(message)
 
     global url
     url = "http://162.243.172.39:8080" # api url
@@ -53,6 +55,23 @@ class To_Log:
         r = requests.post(url+'/getLocation', data = {})
         print(type(r.json()))
         print(r.json())
+        return r.json()
+
+    def getLocationName(self, location_data):
+        name = []
+        for entry in location_data:
+            name.append(entry.get('name'))
+        return name
+
+    def getAllInfo(self, location_data, locName):
+        temp = []
+        result = []
+        for entry in location_data:
+            if entry.get('name') == locName:
+                temp = entry.items()
+                for k, v in temp:
+                    result.append(k + ': ' + v)
+        return result
 
     # user is user email (e.g. 1@1.com) pw is the uid after user pass the authentication
     # uid for 1@1.com is NfTPhqOgdsbb5qaq27aEkvY6kqf1
@@ -83,4 +102,10 @@ class To_Log:
         r = requests.post(url + "/searchItemByNameLoc", data={'username': user, 'pw': pw, 'name': name, 'location':location})
         print(r.json())
 
+    def createNewUserInDB(self, user, uid, email, type):
+        r = requests.post(url + "/register", data={'user': user, 'pw': uid, 'email': email, 'user_type': type})
+        return r.json()
 
+    def createNewUser(self, user, pw):
+        res = authe.create_user_with_email_and_password(user,pw)
+        return res

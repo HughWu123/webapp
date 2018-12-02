@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<article>
+  <header>
+    <h1>Here are the locations:</h1>
+  </header>
+  <a href="/afd/">AFD station 4</a>
+  <p><a href="/b/">BOYS & GILRS CLUB W.W. WOOLFOLK</a></p>
+  <p><a href="/pathway/">PATHWAY UPPER ROOM CHRISTIAN MINISTRIES</a></p>
+  <p><a href="/pavilion/">PAVILION OF HOPE INC</a></p>
+  <p><a href="/dd/">D&D CONVENIENCE STORE</a></p>
+  <p><a href="/keep/">KEEP NORTH FULTON BEAUTIFUL</a></p>
+</article>
+
+
+<form method = "post">
+  Name of items:
+  {% csrf_token %}
+  {{ form.location_name }}
+  <input type="submit" value="SEARCH BY NAME"><br><br>
+  Categories:
+  {{ form.category }}
+  <input type="submit" value="SEARCH BY CATEGORY">
+
+</form>
+</body>
+</html>
+

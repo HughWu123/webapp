@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+{% block content %}
+        {% for c in content %}
+            <p>{{c}}</p>
+        {% endfor %}
+{% endblock %}
+
+<form method = "post">
+  Name of items:
+  {% csrf_token %}
+  {{ form.location_name }}
+  <input type="submit" value="SEARCH BY NAME"><br><br>
+  Categories:
+  {{ form.category }}
+  <input type="submit" value="SEARCH BY CATEGORY">
+
+</form>
+
+</form>
+</body>
+</html>
+
