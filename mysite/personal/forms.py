@@ -2,7 +2,7 @@ from django import forms
 
 class TestForm(forms.Form):
     name = forms.CharField()
-    password = forms.CharField()
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
 class RegisterForm(forms.Form):
     CHOICES = [('User', 'User'),

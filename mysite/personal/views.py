@@ -3,33 +3,48 @@ from .forms import TestForm
 from .forms import SearchForm
 from .models import To_Log
 from .forms import RegisterForm
+from django import forms as f
 
 to_log = To_Log()
 global location_data
 location_data = To_Log.getLocation(to_log)
 location_name = To_Log.getLocationName(to_log, location_data)
-
-
-
+cat_glob = None
+usr = None
+passw = None
 def index(request):
     return render(request, 'personal/home.html')
 
 def login(request):
+    result = False
+    name = ''
+    print('method:' + request.method)
     if request.method == 'POST':
         form = TestForm(request.POST)
+
         if form.is_valid():
             name = form.cleaned_data['name']
             password = form.cleaned_data['password']
-            print(name, password)
+            global usr
+            usr = str(name)
             to_log = To_Log()
-            To_Log.postsign(to_log, name, password)
-            print('ce shi')
+            result = To_Log.postsign(to_log, name, password)
+            #if result is not None:
+                #passw = result.get('localId')
+            #rint(passw)
             To_Log.getLocation(to_log)
     form = TestForm()
-    return render(request, 'personal/basic.html', {'form':form})
+    if result == False:
+        return render(request, 'personal/basic.html', {'form': form, 'result': result})
+    else:
+        global passw
+        passw = result.get('localId')
+        #return render(request, 'personal/locations.html', {'form': form, 'username': name, 'pw': result['localId'] if 'localId' in result else ''})
+        return showLoc(request)
+
 
 def register(request):
-    message = 'Enter valid information'
+    #message = 'Enter valid information'
     confirmed = False
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -56,27 +71,36 @@ def register(request):
                         message = "user registration not successful"
                 except Exception as e:
                     message = 'Enter valid information'
+                    message = str(e);
                     print(str(e))
             else:
-                message = "two password don't match"
+                message = "two password do not match"
             #print(type(res))
             #uid = res[0].get('localId')
             #print(uid)
-    print(message)
+    #print(message)
+    else:
+        message = "Hello check valid info"
 
     form = RegisterForm()
-    return render(request, 'personal/basic2.html', {'form':form, 'm':message})
+    return render(request, 'personal/reg.html', {'form':form, 'm':message})
 
 def showLoc(request):
+    to_log = To_Log()
+    cat = "check ////"
+    print(cat)
     if request.method == 'POST':
         form = SearchForm(request.POST)
+        print(form)
+        print('111111111111111')
         if form.is_valid():
             name = form.cleaned_data['location_name']
             cat = form.cleaned_data['category']
+            print(cat + '////////////////////////////////////////')
             print(name, cat)
+            return items(request)
 
-            print('ce shi')
-    form = SearchForm()
+        form = SearchForm()
     return render(request, 'personal/locations.html', {'form':form})
 
 def afd(request):
@@ -152,4 +176,12 @@ def keep(request):
     return render(request, 'personal/keep.html', {'content': To_Log.getAllInfo(to_log, location_data, 'KEEP NORTH FULTON BEAUTIFUL'), 'form' : form})
 
 def map(request):
-    return render(request, 'personal/map.html')
+    addr = To_Log.getLocationAddress(to_log, location_data)
+    print(addr)
+    return render(request, 'personal/map.html', {'addr': addr})
+
+def items(request):
+    print(usr,passw,cat_glob)
+    ret_val = To_Log.searchItemsByCategory(to_log, usr, passw, cat_glob)
+    print('ce shi')
+    return render(request, 'personal/items.html', {'ret_val': ret_val})

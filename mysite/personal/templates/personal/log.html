@@ -29,7 +29,7 @@ hr {
 
 /* Set a style for all buttons */
 button {
-    background-color: #4CAF50;
+    background-color: #2B60DE;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -73,11 +73,21 @@ button:hover {
 <h1>Login</h1>
     <p>Please fill in this form to log in.</p>
     <hr>
-<form method = "post">
-  {% csrf_token %}
+<form  method = "post">
+{% csrf_token %}
   {{ form }}
+
+<!--
+  <script  type = "text/javascript">
+  function pop_alert() {
+    var r = "{{ result }}"
+    if (r == False) {
+      alert("Incorrect email or password")
+    }
+  }
+  </script>-->
   <div class="clearfix">
-    <a href = '/showLoc/'><button type="button" class="loginbtn">Login</button></a>
+    <a href="/login/"><button type="submit" class="loginbtn">Login</button></a>
     <a href="http://127.0.0.1:8000"><button type="button" class="cancelbtn">Cancel</button></a>
     </div>
 

@@ -1,29 +1,94 @@
 <!DOCTYPE html>
 <html>
 <body>
+<style>
+.webmadewell {
+  background-color: white;
+}
+body {
+  margin: 0;
+}
+.sample-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-image: url("http://webmadewell.com/wp-content/uploads/2018/01/img-bg-sample-parallax-header.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.sample-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: MidnightBlue;
+  opacity: 0.3;
+}
+.sample-header-section {
+  position: relative;
+  padding: 15% 0 10%;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  font-family: "Montserrat", sans-serif;
+}
+h1 {
+  font-weight: 500;
+}
+h2 {
+  font-weight: 400;
+}
+.sample-section-wrap {
+  position: relative;
+  background-color: white;
+}
+.sample-section {
+  position: relative;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px;
+}
 
-<article>
-  <header>
+</style>
+<div class="sample-header">
+  <div class="sample-header-section">
     <h1>Here are the locations:</h1>
-  </header>
+    <h2>Scroll down to search for items </h2>
+  </div>
+</div>
+<div class="blue-bg"></div>
+<div class="white-bg shadow"></div>
+<div class="content">
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<article>
   <a href="/afd/">AFD station 4</a>
   <p><a href="/b/">BOYS & GILRS CLUB W.W. WOOLFOLK</a></p>
   <p><a href="/pathway/">PATHWAY UPPER ROOM CHRISTIAN MINISTRIES</a></p>
   <p><a href="/pavilion/">PAVILION OF HOPE INC</a></p>
   <p><a href="/dd/">D&D CONVENIENCE STORE</a></p>
   <p><a href="/keep/">KEEP NORTH FULTON BEAUTIFUL</a></p>
+  <br><br><br><br><br><br>
 </article>
 
 
-<form method = "post">
+<form action="/items/" method = "post">
   Name of items:
   {% csrf_token %}
   {{ form.location_name }}
   <input type="submit" value="SEARCH BY NAME"><br><br>
   Categories:
+  {% csrf_token %}
   {{ form.category }}
   <input type="submit" value="SEARCH BY CATEGORY">
-
+  <br><br><br><br><br><br>
+  <a href="http://127.0.0.1:8000"><button type="button" class="cancelbtn">Log out</button></a>
 </form>
 </body>
 </html>

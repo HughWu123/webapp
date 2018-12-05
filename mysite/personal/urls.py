@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^dd/$', views.dd, name=',dd'),
     url(r'^keep/$', views.keep, name=',keep'),
     url(r'^map/$', views.map, name=',map'),
+    url(r'^items', views.items, name=',items'),
 ]

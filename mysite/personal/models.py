@@ -21,18 +21,25 @@ class To_Log:
     global authe
     authe = firebase.auth()
     database=firebase.database()
+
     def postsign(self, email, passw):
-        #email=request.POST.get('email')
-        #passw = request.POST.get("pass")
+        #email = requests.POST.get('name')
+        #passw = requests.POST.get("password")
         try:
-            user = authe.sign_in_with_email_and_password(email,passw)
-            return True
-        except:
-            message="invalid credentials"
+            x = authe.sign_in_with_email_and_password(email, passw)
+            print(x)
+            if not 'localId' in x:
+                return False
+            return x
+        except Exception as e:
+            message = "invalid credentials"
+            print(e)
             return False
+
         #use uid to query in database. store uid in some place
-        print(user)
-        print(message)
+
+
+
 
     global url
     url = "http://162.243.172.39:8080" # api url
@@ -63,6 +70,13 @@ class To_Log:
             name.append(entry.get('name'))
         return name
 
+    def getLocationAddress(self, location_data):
+        addr = []
+        for entry in location_data:
+            dictionary = {'lat': float(entry.get('latitude')), 'lng': float(entry.get('longitude'))}
+            addr.append(dictionary)
+        return addr
+
     def getAllInfo(self, location_data, locName):
         temp = []
         result = []
@@ -81,6 +95,9 @@ class To_Log:
             'value': v, 'category': cat})
         print(r) # if 1 then added successfully
     #
+
+
+
     def getItems(self, user, pw, location):
         r = requests.post(url+'/getItems', data = {'username': user, 'pw': pw,
             'location': location})
